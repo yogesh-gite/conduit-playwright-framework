@@ -11,7 +11,10 @@ export default defineConfig({
   timeout: 45_000,
   expect: { timeout: 10_000 },
 
-  reporter: [['list'], ['html', { open: 'never' }]],
+  // In CI, the "github" reporter shows each failed test's error on the run summary page.
+  reporter: ENV.isCI
+    ? [['list'], ['github'], ['html', { open: 'never' }]]
+    : [['list'], ['html', { open: 'never' }]],
 
   use: {
     baseURL: ENV.baseUrl,
